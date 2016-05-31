@@ -118,7 +118,8 @@ def sign(wire, keyname, secret, time, fudge, original_id, error,
     ol = len(other_data)
     if ol > 65535:
         raise ValueError('TSIG Other Data is > 65535 bytes')
-    post_mac = struct.pack('!HH', error, ol) + other_data
+    if other_data:
+        post_mac = struct.pack('!HH', error, ol) + other_data
     if first:
         ctx.update(pre_mac)
         ctx.update(post_mac)
